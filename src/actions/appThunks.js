@@ -1,6 +1,7 @@
 import { positionMapping } from '../globals/constants/Position'
 import {
   loadFormations,
+  loadPlayer,
   loadPlayers,
   loadTeamSelection,
   updateTeamSelection,
@@ -21,6 +22,19 @@ const appThunks = {
         dispatch({
           type: 'ADD_FORMATIONS',
           formations: res.body,
+        })
+      })
+      .catch(function(err) {
+        // err.message, err.response
+      })
+  },
+
+  loadPlayer: id => dispatch => {
+    loadPlayer(id)
+      .then(function(res) {
+        dispatch({
+          type: 'ADD_PLAYER_DETAIL',
+          player: res.body,
         })
       })
       .catch(function(err) {
