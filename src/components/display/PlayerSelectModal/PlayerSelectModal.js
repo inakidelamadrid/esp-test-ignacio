@@ -38,7 +38,7 @@ class PlayerSelectModal extends Component {
   render() {
     const { selectedPlayer } = this.state;
 
-    const { players } = this.props;
+    const { at, players, position } = this.props;
 
     return (
       <Fragment>

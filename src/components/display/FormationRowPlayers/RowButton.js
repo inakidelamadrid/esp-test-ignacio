@@ -30,7 +30,9 @@ class RowButton extends Component {
   }
 
   render() {
-    const { className } = this.props;
+    // Note: unlike 'removing' we need an int to point at where within
+    // the position we'll drop the player
+    const { at, className, position } = this.props;
 
     const { dimmerActive } = this.state;
 
@@ -64,7 +66,7 @@ class RowButton extends Component {
               />
             }
           >
-            <PlayerSelectModal/>
+            <PlayerSelectModal at={at} position={position}/>
           </Modal>
 
         </Dimmer>
