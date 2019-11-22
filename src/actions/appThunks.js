@@ -1,5 +1,6 @@
 import request from 'superagent'
 import { positionMapping } from '../globals/constants/Position'
+import { updateTeamSelection } from '../api'
 
 const API_ENDPOINT = 'http://localhost:4001'
 
@@ -58,22 +59,16 @@ const appThunks = {
   insertPlayerInTeamSelection: (id, position, at) => (dispatch, getState) => {
     const { teamSelection } = getState()
     const longPositionText = positionMapping(position)
-    console.log(longPositionText);
     const positionPlayers = teamSelection[longPositionText]
-    console.log(positionPlayers);
     // just insert the id and remove any nulls
-    positionPlayers.splice(at, 1, id);
-    console.log(positionPlayers);
-
+    positionPlayers.splice(at, 1, id)
 
     const newTeamSelection = {
       ...teamSelection,
       [longPositionText]: positionPlayers,
     }
 
-    request
-      .post(fullURI('/team_selection'))
-      .send(newTeamSelection)
+    updateTeamSelection(newTeamSelection)
       .then(res => {
         dispatch({
           type: 'ADD_TEAM_SELECTION',
@@ -101,9 +96,7 @@ const appThunks = {
       [longPositionText]: newPlayers,
     }
 
-    request
-      .post(fullURI('/team_selection'))
-      .send(newTeamSelection)
+    updateTeamSelection(newTeamSelection)
       .then(res => {
         dispatch({
           type: 'ADD_TEAM_SELECTION',
