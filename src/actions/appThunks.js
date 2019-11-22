@@ -6,6 +6,14 @@ import {
   updateTeamSelection,
 } from '../api'
 
+const pickPositionPlayers = (teamSelection, position) => {
+  // position comes as short text (e.g MID) and the key in the object is
+  // 'midfielders'
+  const positionKey = positionMapping(position)
+  const positionPlayers = teamSelection[positionKey]
+  return [positionKey, positionPlayers]
+}
+
 const appThunks = {
   loadFormations: () => dispatch => {
     loadFormations()
@@ -51,14 +59,12 @@ const appThunks = {
 
   insertPlayerInTeamSelection: (id, position, at) => (dispatch, getState) => {
     const { teamSelection } = getState()
-    const longPositionText = positionMapping(position)
-    const positionPlayers = teamSelection[longPositionText]
-    // just insert the id and remove any nulls
-    positionPlayers.splice(at, 1, id)
+    const [positionKey, players] = pickPositionPlayers(teamSelection, position)
+    players.splice(at, 1, id)
 
     const newTeamSelection = {
       ...teamSelection,
-      [longPositionText]: positionPlayers,
+      [positionKey]: players,
     }
 
     updateTeamSelection(newTeamSelection)
@@ -76,17 +82,12 @@ const appThunks = {
     getState
   ) => {
     const { teamSelection } = getState()
-    // position comes as short text (e.g MID) and the key in the object is
-    // 'midfielders'
-    const longPositionText = positionMapping(position)
-    const positionPlayers = teamSelection[longPositionText]
-    const newPlayers = positionPlayers.map(id =>
-      id !== selectedId ? id : null
-    )
+    const [positionKey, players] = pickPositionPlayers(teamSelection, position)
+    const newPlayers = players.map(id => (id !== selectedId ? id : null))
 
     const newTeamSelection = {
       ...teamSelection,
-      [longPositionText]: newPlayers,
+      [positionKey]: newPlayers,
     }
 
     updateTeamSelection(newTeamSelection)
