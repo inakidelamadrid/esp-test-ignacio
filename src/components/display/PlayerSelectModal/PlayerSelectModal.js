@@ -28,7 +28,8 @@ class PlayerSelectModal extends Component {
   state = { selectedPlayer: null};
 
   componentDidMount() {
-    this.props.loadPlayers({query: {position: 'MID'}});
+    const {position} = this.props;
+    this.props.loadPlayers({query: {position: position}});
   }
 
   handleSelect = (e,data) => {
