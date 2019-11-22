@@ -105,6 +105,13 @@ class PlayerSelectModal extends Component {
               handleClose()
             }}
           />
+          <Button
+            content='Cancel'
+            info
+            onClick={() => {
+              handleClose()
+            }}
+          />
         </Modal.Actions>
       </Fragment>
     );
