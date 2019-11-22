@@ -16,8 +16,9 @@ import appThunks              from '../../../actions/appThunks';
 class Formation extends Component {
 
   static propTypes = {
-    formations     : PropTypes.array,
-    loadFormations : PropTypes.func.isRequired,
+    formations        : PropTypes.array,
+    loadFormations    : PropTypes.func.isRequired,
+    loadTeamSelection : PropTypes.func.isRequired,
   };
 
   static defaultProps = { formations: [] };
@@ -26,6 +27,7 @@ class Formation extends Component {
 
   componentDidMount() {
     this.props.loadFormations();
+    this.props.loadTeamSelection();
   }
 
   handleFormationSet = (e,data) => {
@@ -33,20 +35,18 @@ class Formation extends Component {
   }
 
   render() {
-    const { formations } = this.props;
+    const { formations, teamSelection } = this.props;
 
     const formationsOptions = formations.map((f) => ({
       key   : f,
       text  : f,
       value : f,
     })); // Semantic Ui Dropdown requires options formatted with these three values
-
-    const forwards = [null, 9, 24];
-    const midfielders = [11,null,null,19];
-    const defenders = [18,6,null,24];
-    const keeper = [33];
+    
+    const { forwards, midfielders, defenders, keeper } = teamSelection;
 
     const { formation } = this.state;
+
     const rows = formation.split('-').map(Number);
 
     return (
@@ -109,9 +109,15 @@ const mapDispatchToProps = (dispatch) => ({
   loadFormations: () => {
     dispatch(appThunks.loadFormations());
   },
+  loadTeamSelection: () => {
+    dispatch(appThunks.loadTeamSelection());
+  }
 });
 
-const mapStateToProps = (state) => ({ formations: state.formations });
+const mapStateToProps = (state) => ({ 
+  formations: state.formations,
+  teamSelection: state.teamSelection
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Formation);
 
