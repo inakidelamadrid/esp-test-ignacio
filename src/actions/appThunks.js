@@ -28,8 +28,8 @@ const appThunks = {
       })
   },
 
-  loadPlayers: () => dispatch => {
-    loadPlayers()
+  loadPlayers: (params) => dispatch => {
+    loadPlayers(params)
       .then(function(res) {
         dispatch({
           type: 'ADD_PLAYERS',

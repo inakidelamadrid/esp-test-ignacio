@@ -28,7 +28,7 @@ class PlayerSelectModal extends Component {
   state = { selectedPlayer: null};
 
   componentDidMount() {
-    this.props.loadPlayers();
+    this.props.loadPlayers({query: {position: 'MID'}});
   }
 
   handleSelect = (e,data) => {
@@ -107,7 +107,7 @@ class PlayerSelectModal extends Component {
           />
           <Button
             content='Cancel'
-            info
+            color='grey'
             onClick={() => {
               handleClose()
             }}
@@ -123,12 +123,15 @@ const mapDispatchToProps = (dispatch) => ({
   insertPlayer: (id, position, at) => {
     dispatch(appThunks.insertPlayerInTeamSelection(id, position, at));
   },
-  loadPlayers: () => {
-    dispatch(appThunks.loadPlayers());
+  loadPlayers: (params) => {
+    dispatch(appThunks.loadPlayers(params));
   },
 });
 
-const mapStateToProps = (state) => ({ players: state.players, team_selection: state.team_selection });
+const mapStateToProps = (state) => ({ 
+  players: state.players,
+  team_selection: state.team_selection
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerSelectModal);
 

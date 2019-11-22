@@ -12,8 +12,13 @@ export const fullURI = apiPath => {
 export const loadFormations = () =>
   request.get(fullURI('/formations'))
 
-export const loadPlayers = () =>
-  request.get(fullURI('/players'))
+export const loadPlayers = (params={}) =>{
+  // let's take advantage of Superagent's API
+  // we could be super smart and do some meta programming to be able to chain
+  // any method but let's do it only for query this time
+  const base = request.get(fullURI('/players'))
+  return params.query ? base.query(params.query) : base
+}
 
 export const loadTeamSelection = () =>
   request.get(fullURI('/team_selection'))
