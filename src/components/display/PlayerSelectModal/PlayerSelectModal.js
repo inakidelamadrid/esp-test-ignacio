@@ -25,7 +25,7 @@ class PlayerSelectModal extends Component {
 
   static defaultProps = { players: [] };
 
-  state = { selectedPlayer: null, modalOpen: false};
+  state = { selectedPlayer: null};
 
   componentDidMount() {
     this.props.loadPlayers();
@@ -96,7 +96,7 @@ class PlayerSelectModal extends Component {
           <Button
             content='Select'
             positive
-            onClick={() => handleClose()}
+            onClick={handleClose}
           />
         </Modal.Actions>
       </Fragment>
