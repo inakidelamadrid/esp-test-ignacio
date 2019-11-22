@@ -8,5 +8,15 @@ export const fullURI = apiPath => {
   return `${API_ENDPOINT}/api/v1${apiPath}`
 }
 
+
+export const loadFormations = () =>
+  request.get(fullURI('/formations'))
+
+export const loadPlayers = () =>
+  request.get(fullURI('/players'))
+
+export const loadTeamSelection = () =>
+  request.get(fullURI('/team_selection'))
+
 export const updateTeamSelection = teamSelection =>
   request.post(fullURI('/team_selection')).send(teamSelection)

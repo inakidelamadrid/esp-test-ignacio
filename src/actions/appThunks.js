@@ -1,19 +1,14 @@
-import request from 'superagent'
 import { positionMapping } from '../globals/constants/Position'
-import { updateTeamSelection } from '../api'
-
-const API_ENDPOINT = 'http://localhost:4001'
-
-const fullURI = apiPath => {
-  /* Although this is not a pure function, it helps by reducing the amount
-   of changes needed if the host / api version changes */
-  return `${API_ENDPOINT}/api/v1${apiPath}`
-}
+import {
+  loadFormations,
+  loadPlayers,
+  loadTeamSelection,
+  updateTeamSelection,
+} from '../api'
 
 const appThunks = {
   loadFormations: () => dispatch => {
-    request
-      .get(fullURI('/formations'))
+    loadFormations()
       .then(function(res) {
         dispatch({
           type: 'ADD_FORMATIONS',
@@ -26,8 +21,7 @@ const appThunks = {
   },
 
   loadPlayers: () => dispatch => {
-    request
-      .get(fullURI('/players'))
+    loadPlayers()
       .then(function(res) {
         dispatch({
           type: 'ADD_PLAYERS',
@@ -45,8 +39,7 @@ const appThunks = {
    * and type mechanically
    */
   loadTeamSelection: () => dispatch => {
-    request
-      .get(fullURI('/team_selection'))
+    loadTeamSelection()
       .then(res => {
         dispatch({
           type: 'ADD_TEAM_SELECTION',
