@@ -3,14 +3,12 @@ import PropTypes            from 'prop-types';
 import { connect }          from 'react-redux';
 import { Link }             from 'react-router-dom';
 import {
-  Dimmer,
   Flag,
   Grid,
   List,
-  Loader,
-  Segment,
 }                           from 'semantic-ui-react';
 import appThunks            from '../../../actions/appThunks';
+import ListLoading          from '../ListLoading'
 
 class PlayerList extends Component {
 
@@ -61,21 +59,7 @@ class PlayerList extends Component {
                 to={'/players/' + player.id}
               />
             ))
-            :
-            // TODO: This markup used to show the user a loading state while
-            // they wait for Redux state to populate. It can be moved to a new
-            // component for reusability.
-            <Segment
-              basic
-              style={{ minHeight: '300px' }}
-            >
-              <Dimmer
-                active
-                inverted
-              >
-                <Loader inverted>{'Loading'}</Loader>
-              </Dimmer>
-            </Segment>
+            :<ListLoading/>
           }
         </List>
       </Grid.Column>
