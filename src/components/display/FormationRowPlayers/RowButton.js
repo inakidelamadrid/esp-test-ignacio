@@ -19,7 +19,7 @@ class RowButton extends Component {
 
   static defaultProps = { className: null };
 
-  state = { dimmerActive: false };
+  state = { dimmerActive: false , modalOpen: false};
 
   handleMouseEnter = () => {
     this.setState({ dimmerActive: true });
@@ -27,6 +27,14 @@ class RowButton extends Component {
 
   handleMouseLeave = () => {
     this.setState({ dimmerActive: false });
+  }
+
+  openModal = () => {
+    this.setState(state => ({...state, modalOpen: true}))
+  }
+
+  closeModal = () => {
+    this.setState(state => ({...state, modalOpen: false}))
   }
 
   render() {
@@ -58,15 +66,17 @@ class RowButton extends Component {
           <Modal
             dimmer='blurring'
             size='mini'
+            open={this.state.modalOpen}
             trigger={
               <Button
                 content='Add'
                 inverted
                 size='small'
+                onClick={this.openModal.bind(this)}
               />
             }
           >
-            <PlayerSelectModal at={at} position={position}/>
+            <PlayerSelectModal at={at} position={position} handleClose={this.closeModal.bind(this)} />
           </Modal>
 
         </Dimmer>
