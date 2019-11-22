@@ -7,16 +7,14 @@ import PropTypes   from 'prop-types';
 import { connect } from 'react-redux';
 import {
   Button,
-  Dimmer,
   Flag,
   Icon,
   List,
-  Loader,
   Modal,
-  Segment,
 }                  from 'semantic-ui-react';
 
 import appThunks   from '../../../actions/appThunks';
+import LoadingList from '../LoadingList'
 
 class PlayerSelectModal extends Component {
 
@@ -90,21 +88,7 @@ class PlayerSelectModal extends Component {
                   style={{ position: 'relative' }}
                 />
               ))
-              :
-              // TODO: This markup used to show the user a loading state while
-              // they wait for Redux state to populate. It can be moved to a new
-              // component for reusability.
-              <Segment
-                basic
-                style={{ minHeight: '300px' }}
-              >
-                <Dimmer
-                  active
-                  inverted
-                >
-                  <Loader inverted>{'Loading'}</Loader>
-                </Dimmer>
-              </Segment>
+              : <LoadingList/>
             }
           </List>
         </Modal.Content>
