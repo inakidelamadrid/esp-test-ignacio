@@ -30,7 +30,6 @@ class FormationRowPlayers extends Component {
       players,
       position,
     } = this.props;
-
     return (
       <Grid.Row>
         <Grid.Column>
@@ -50,12 +49,13 @@ class FormationRowPlayers extends Component {
                     id={players[i]}
                     key={i}
                     lastName={'Ramsey'}
-                    position={'FWD'}
+                    position={position}
                   />
                   :
                   <RowButton
                     key={i}
                     position={position}
+                    at={i}
                   />
               )}
             </Transition.Group>

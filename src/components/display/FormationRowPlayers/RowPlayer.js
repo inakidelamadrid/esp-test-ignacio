@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes            from 'prop-types';
+import { connect }          from 'react-redux'
 import { Link }             from 'react-router-dom';
 import {
   Button,
@@ -12,6 +13,7 @@ import {
 }                           from 'semantic-ui-react';
 
 import defaultImg           from '../../../image.png';
+import appThunks            from '../../../actions/appThunks';
 import Position             from '../../../globals/constants/Position';
 
 class RowPlayer extends Component {
@@ -39,6 +41,11 @@ class RowPlayer extends Component {
 
   handleMouseLeave = () => {
     this.setState({ dimmerActive: false });
+  }
+  
+  removePlayer = () =>{
+    const { id, position } = this.props;
+    this.props.removePlayerFromTeamSelection(id, position)
   }
 
   render() {
@@ -69,6 +76,7 @@ class RowPlayer extends Component {
               content='Remove'
               inverted
               size='small'
+              onClick={this.removePlayer}
             />
           </Dimmer>
           <Image
@@ -113,4 +121,14 @@ class RowPlayer extends Component {
 
 }
 
-export default RowPlayer;
+const mapDispatchToProps = (dispatch) => ({
+  removePlayerFromTeamSelection: (playerId, position) => {
+    dispatch(appThunks.removePlayerFromTeamSelection(playerId, position));
+  },
+});
+
+const mapStateToProps = (state) => ({ 
+  teamSelection: state.teamSelection
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RowPlayer);

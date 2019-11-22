@@ -8,11 +8,14 @@ import {
 }                           from 'semantic-ui-react';
 
 import PlayerSelectModal    from '../PlayerSelectModal';
+import Position             from '../../../globals/constants/Position';
 
 
 class RowButton extends Component {
 
-  static propTypes = { className: PropTypes.string };
+  static propTypes = { 
+    className : PropTypes.string,
+  };
 
   static defaultProps = { className: null };
 
@@ -61,7 +64,7 @@ class RowButton extends Component {
               />
             }
           >
-            <PlayerSelectModal />
+            <PlayerSelectModal/>
           </Modal>
 
         </Dimmer>
