@@ -35,9 +35,13 @@ class PlayerSelectModal extends Component {
     this.setState({ selectedPlayer: data.id });
   };
 
+  insertPlayer = (position, at) => {
+    const { selectedPlayer } = this.state;
+    this.props.insertPlayer(selectedPlayer, position, at);
+  }
+
   render() {
     const { selectedPlayer } = this.state;
-
     const { at, handleClose, players, position } = this.props;
 
     return (
@@ -96,7 +100,10 @@ class PlayerSelectModal extends Component {
           <Button
             content='Select'
             positive
-            onClick={handleClose}
+            onClick={() => {
+              this.insertPlayer(position, at);
+              handleClose()
+            }}
           />
         </Modal.Actions>
       </Fragment>
@@ -106,12 +113,15 @@ class PlayerSelectModal extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  insertPlayer: (id, position, at) => {
+    dispatch(appThunks.insertPlayerInTeamSelection(id, position, at));
+  },
   loadPlayers: () => {
     dispatch(appThunks.loadPlayers());
   },
 });
 
-const mapStateToProps = (state) => ({ players: state.players });
+const mapStateToProps = (state) => ({ players: state.players, team_selection: state.team_selection });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerSelectModal);
 

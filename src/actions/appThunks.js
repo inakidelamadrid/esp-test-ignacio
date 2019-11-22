@@ -3,7 +3,7 @@ import { positionMapping } from '../globals/constants/Position'
 
 const API_ENDPOINT = 'http://localhost:4001'
 
-const getURI = apiPath => {
+const fullURI = apiPath => {
   /* Although this is not a pure function, it helps by reducing the amount
    of changes needed if the host / api version changes */
   return `${API_ENDPOINT}/api/v1${apiPath}`
@@ -12,7 +12,7 @@ const getURI = apiPath => {
 const appThunks = {
   loadFormations: () => dispatch => {
     request
-      .get(getURI('/formations'))
+      .get(fullURI('/formations'))
       .then(function(res) {
         dispatch({
           type: 'ADD_FORMATIONS',
@@ -26,7 +26,7 @@ const appThunks = {
 
   loadPlayers: () => dispatch => {
     request
-      .get(getURI('/players'))
+      .get(fullURI('/players'))
       .then(function(res) {
         dispatch({
           type: 'ADD_PLAYERS',
@@ -45,7 +45,35 @@ const appThunks = {
    */
   loadTeamSelection: () => dispatch => {
     request
-      .get(getURI('/team_selection'))
+      .get(fullURI('/team_selection'))
+      .then(res => {
+        dispatch({
+          type: 'ADD_TEAM_SELECTION',
+          team_selection: res.body,
+        })
+      })
+      .catch(err => {})
+  },
+
+  insertPlayerInTeamSelection: (id, position, at) => (dispatch, getState) => {
+    const { teamSelection } = getState()
+    const longPositionText = positionMapping(position)
+    console.log(longPositionText);
+    const positionPlayers = teamSelection[longPositionText]
+    console.log(positionPlayers);
+    // just insert the id and remove any nulls
+    positionPlayers.splice(at, 1, id);
+    console.log(positionPlayers);
+
+
+    const newTeamSelection = {
+      ...teamSelection,
+      [longPositionText]: positionPlayers,
+    }
+
+    request
+      .post(fullURI('/team_selection'))
+      .send(newTeamSelection)
       .then(res => {
         dispatch({
           type: 'ADD_TEAM_SELECTION',
@@ -74,7 +102,7 @@ const appThunks = {
     }
 
     request
-      .post(getURI('/team_selection'))
+      .post(fullURI('/team_selection'))
       .send(newTeamSelection)
       .then(res => {
         dispatch({
