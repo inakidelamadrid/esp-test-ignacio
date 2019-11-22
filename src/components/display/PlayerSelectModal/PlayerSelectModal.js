@@ -14,7 +14,7 @@ import {
 }                  from 'semantic-ui-react';
 
 import appThunks   from '../../../actions/appThunks';
-import LoadingList from '../LoadingList'
+import ListLoading from '../ListLoading'
 
 class PlayerSelectModal extends Component {
 
@@ -88,7 +88,7 @@ class PlayerSelectModal extends Component {
                   style={{ position: 'relative' }}
                 />
               ))
-              : <LoadingList/>
+              : <ListLoading/>
             }
           </List>
         </Modal.Content>
