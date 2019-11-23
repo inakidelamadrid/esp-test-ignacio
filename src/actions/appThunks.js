@@ -87,7 +87,7 @@ const appThunks = {
   modifyPlayer: modifiedPlayer => (dispatch, getState) => {
     const { players } = getState()
 
-    const newPlayers = players.filter(player =>
+    const newPlayers = players.map(player =>
       player.id === modifiedPlayer.id ? modifiedPlayer : player
     )
 
