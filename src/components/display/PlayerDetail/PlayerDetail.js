@@ -39,6 +39,10 @@ const PlayerDetail = ({
 
   const [isEditing, setIsEditing] = useState(false)
 
+  const toggleEdit = evt => {
+    setIsEditing(isEditing => !isEditing)
+  }
+
   return (
     <Transition animation="fly up" duration={600} transitionOnMount>
       <Grid.Column width={11}>
@@ -105,13 +109,16 @@ const PlayerDetail = ({
           {isEditing ? (
             <Button content="SAVE" inverted positive />
           ) : (
-            <Button content="Edit Player Position" inverted />
+            <Button
+              content="Edit Player Position"
+              inverted
+              onClick={toggleEdit}
+            />
           )}
         </Segment>
       </Grid.Column>
     </Transition>
   )
 }
-
 
 export default React.memo(PlayerDetail)
