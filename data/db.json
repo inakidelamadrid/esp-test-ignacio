@@ -1,12 +1,5 @@
 {
-  "formations": [
-    "4-4-2",
-    "4-3-3",
-    "4-5-1",
-    "5-3-2",
-    "3-4-3",
-    "3-5-2"
-  ],
+  "formations": ["4-4-2", "4-3-3", "4-5-1", "5-3-2", "3-4-3", "3-5-2"],
   "players": [
     {
       "bio": "Lorem ipsum dolor sit Jack, consectetur adipisicing elit. Neque modi nobis tempora et laboriosam enim cum fugiat ab adipisci nostrum quae aliquam, laudantium minus vel repudiandae cupiditate labore, soluta repellendus.",
@@ -225,26 +218,32 @@
       "position": "FWD"
     }
   ],
+  "positions": [
+    {
+      "key": "DEF",
+      "text": "DEF",
+      "value": "DEF"
+    },
+    {
+      "key": "FWD",
+      "text": "FWD",
+      "value": "FWD"
+    },
+    {
+      "key": "GOL",
+      "text": "GOL",
+      "value": "GOL"
+    },
+    {
+      "key": "MID",
+      "text": "MID",
+      "value": "MID"
+    }
+  ],
   "team_selection": {
-    "defenders": [
-      18,
-      6,
-      null,
-      24
-    ],
-    "forwards": [
-      null,
-      9,
-      24
-    ],
-    "keeper": [
-      33
-    ],
-    "midfielders": [
-      11,
-      null,
-      null,
-      19
-    ]
+    "defenders": [18, 6, null, 24],
+    "forwards": [null, 9, 24],
+    "keeper": [33],
+    "midfielders": [11, null, null, 19]
   }
 }

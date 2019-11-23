@@ -35,6 +35,11 @@ const PlayerDetail = ({
       text: 'MID',
       value: 'MID',
     },
+    {
+      key: 'FWD',
+      text: 'FWD',
+      value: 'FWD',
+    },
   ]
 
   const [isEditing, setIsEditing] = useState(false)
