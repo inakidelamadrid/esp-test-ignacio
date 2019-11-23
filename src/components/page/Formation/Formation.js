@@ -1,4 +1,5 @@
 import React, { Component }   from 'react';
+import pick from 'lodash/pick'
 import PropTypes              from 'prop-types';
 import { connect }            from 'react-redux';
 
@@ -27,6 +28,7 @@ class Formation extends Component {
 
   componentDidMount() {
     this.props.loadFormations();
+    this.props.loadPlayers();
     this.props.loadTeamSelection();
   }
 
@@ -35,7 +37,8 @@ class Formation extends Component {
   }
 
   render() {
-    const { formations, teamSelection } = this.props;
+    const { formations, players, teamSelection } = this.props;
+    const siftPlayers = players.map(player => pick(player, ['country', 'id', 'first_name', 'last_name']))
 
     const formationsOptions = formations.map((f) => ({
       key   : f,
@@ -48,6 +51,8 @@ class Formation extends Component {
     const { formation } = this.state;
 
     const rows = formation.split('-').map(Number);
+    console.log(rows);
+    console.log(siftPlayers);
 
     return (
       <Transition
@@ -109,14 +114,18 @@ const mapDispatchToProps = (dispatch) => ({
   loadFormations: () => {
     dispatch(appThunks.loadFormations());
   },
+  loadPlayers: () => {
+    dispatch(appThunks.loadPlayers());
+  },
   loadTeamSelection: () => {
     dispatch(appThunks.loadTeamSelection());
-  }
+  },
 });
 
 const mapStateToProps = (state) => ({ 
   formations: state.formations,
-  teamSelection: state.teamSelection
+  players: state.players,
+  teamSelection: state.teamSelection,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Formation);
