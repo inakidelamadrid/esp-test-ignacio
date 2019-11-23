@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes            from 'prop-types';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Button,
   Flag,
@@ -10,137 +10,108 @@ import {
   Label,
   Segment,
   Transition,
-}                           from 'semantic-ui-react';
+} from 'semantic-ui-react'
 
+import appThunks from '../../../actions/appThunks'
 
-class PlayerDetail extends Component {
+const PlayerDetail = ({
+  match: {
+    params: { playerID },
+  },
+}) => {
+  // I was able to make this work only with hooks.
+  const playerDetail = useSelector(state => state.playerDetail)
+  const dispatch = useDispatch()
 
-  static propTypes = { match: PropTypes.shape({ params: PropTypes.shape({ playerID: PropTypes.string }) }) };
+  useEffect(() => {
+    dispatch(appThunks.loadPlayerDetail(Number(playerID)))
+  }, [dispatch, playerID])
 
-  static defaultProps = { match: null };
-
-  state = { isEditing: false };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
-
-  render() {
   // TODO: This temporary data needs to be removed and replaced with real
-  // player data from /api/v1/players/$playerID
-    const player = {
-      bio        : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque modi nobis tempora et laboriosam enim cum fugiat ab adipisci nostrum quae aliquam, laudantium minus vel repudiandae cupiditate labore, soluta repellendus.',
-      country    : 'gb eng',
-      first_name : 'First',
-      id         : 17,
-      img        : '/img/team/17.png',
-      last_name  : 'Last',
-      position   : 'MID',
-    };
+  // position data from /api/v1/positions
+  const positions = [
+    {
+      key: 'MID',
+      text: 'MID',
+      value: 'MID',
+    },
+  ]
 
-    // TODO: This temporary data needs to be removed and replaced with real
-    // position data from /api/v1/positions
-    const positions = [
-      {
-        key   : 'MID',
-        text  : 'MID',
-        value : 'MID',
-      },
-    ];
+  const [isEditing, setIsEditing] = useState(false)
 
-    const { playerID } = this.props.match.params;
+  return (
+    <Transition animation="fly up" duration={600} transitionOnMount>
+      <Grid.Column width={11}>
+        <Segment clearing color="teal" inverted>
+          <Image
+            floated="left"
+            size="medium"
+            src={playerDetail.img}
+            style={{ marginBottom: 0 }}
+            wrapped
+          />
 
-    const { isEditing } = this.state;
+          <Header
+            as="h2"
+            content={[playerDetail.first_name, playerDetail.last_name].join(
+              ' '
+            )}
+            style={{ marginTop: 0 }}
+            subheader={
+              <Label
+                circular
+                content={playerDetail.id}
+                style={{
+                  float: 'right',
+                  marginTop: '.25em',
+                }}
+              />
+            }
+          />
 
-    return (
-      <Transition
-        animation='fly up'
-        duration={600}
-        transitionOnMount
-      >
-        <Grid.Column width={11}>
-          <Segment
-            clearing
-            color='teal'
-            inverted
-          >
-            <Image
-              floated='left'
-              size='medium'
-              src={player.img}
-              style={{ marginBottom: 0 }}
-              wrapped
-            />
-
-            <Header
-              as='h2'
-              content={[player.first_name,player.last_name].join(' ')}
-              style={{ marginTop: 0 }}
-              subheader={
-                <Label
-                  circular
-                  content={playerID}
-                  style={{
-                    float     : 'right',
-                    marginTop : '.25em',
-                  }}
+          <Form inverted>
+            <Form.Group widths="equal">
+              <Form.Field inline>
+                <label htmlFor="#">{'Country'}</label>
+                <Flag
+                  className={playerDetail.country}
+                  style={{ margin: '1em 0' }}
                 />
-              }
-            />
-
-            <Form
-              inverted
-            >
-              <Form.Group widths='equal'>
+              </Form.Field>
+              {isEditing ? (
+                <Form.Select
+                  compact
+                  inline
+                  label="Position"
+                  options={positions}
+                  value={playerDetail.position}
+                />
+              ) : (
                 <Form.Field inline>
-                  <label htmlFor='#'>{'Country'}</label>
-                  <Flag
-                    className={player.country}
-                    style={{ margin: '1em 0' }}
-                  />
+                  <label htmlFor="#">{'Position'}</label>
+                  <p style={{ margin: '1em 0' }}>{playerDetail.position}</p>
                 </Form.Field>
-                {isEditing ?
-                  <Form.Select
-                    compact
-                    inline
-                    label='Position'
-                    options={positions}
-                    value={player.position}
-                  />
-                  :
-                  <Form.Field inline>
-                    <label htmlFor='#'>{'Position'}</label>
-                    <p style={{ margin: '1em 0' }}>{player.position}</p>
-                  </Form.Field>
-                }
-              </Form.Group>
-            </Form>
-            <p>{player.bio}</p>
+              )}
+            </Form.Group>
+          </Form>
+          <p>{playerDetail.bio}</p>
 
-            {/*
+          {/*
             TODO: This button needs to toggle an edit state for the player. this
             will reveal a dropdown with available posiitons. This position can
             be changed in the dropdown and then the save button below can be
             used to save the changes.
           */}
-            {isEditing ?
-              <Button
-                content='SAVE'
-                inverted
-                positive
-              />
-              :
-              <Button
-                content='Edit Player Position'
-                inverted
-              />
-            }
-          </Segment>
-        </Grid.Column>
-      </Transition>
-    );
-  }
-
+          {isEditing ? (
+            <Button content="SAVE" inverted positive />
+          ) : (
+            <Button content="Edit Player Position" inverted />
+          )}
+        </Segment>
+      </Grid.Column>
+    </Transition>
+  )
 }
 
-export default PlayerDetail;
+
+export default React.memo(PlayerDetail)

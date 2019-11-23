@@ -29,7 +29,7 @@ const appThunks = {
       })
   },
 
-  loadPlayer: id => dispatch => {
+  loadPlayerDetail: id => dispatch => {
     loadPlayer(id)
       .then(function(res) {
         dispatch({
