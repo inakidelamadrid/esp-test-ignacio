@@ -48,9 +48,8 @@ const PlayerDetail = ({
       console.log('No changes')
       return
     } else {
-      const updatedDetails = { ...playerDetail, position: playerPosition }
-      // send redux the message to update player
-      console.log('Save')
+      const updatedPlayer = { ...playerDetail, position: playerPosition }
+      dispatch(appThunks.modifyPlayer(updatedPlayer))
     }
     setIsEditing(false)
   }
@@ -108,7 +107,7 @@ const PlayerDetail = ({
               ) : (
                 <Form.Field inline>
                   <label htmlFor="#">{'Position'}</label>
-                  <p style={{ margin: '1em 0' }}>{playerDetail.position}</p>
+                  <p style={{ margin: '1em 0' }}>{playerPosition}</p>
                 </Form.Field>
               )}
             </Form.Group>

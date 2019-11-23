@@ -5,7 +5,8 @@ import {
   loadPlayers,
   loadPositions as loadPositionsEndpoint,
   loadTeamSelection,
-  updateTeamSelection,
+  updatePlayer as updatePlayerEndpoint,
+  updateTeamSelection
 } from '../api'
 
 const pickPositionPlayers = (teamSelection, position) => {
@@ -81,6 +82,26 @@ const appThunks = {
         })
       })
       .catch(err => {})
+  },
+
+  modifyPlayer: modifiedPlayer => (dispatch, getState) => {
+    const { players } = getState()
+    const unmodified = players.filter(player => player.id !== modifiedPlayer.id)
+    const payload = [...unmodified, modifiedPlayer]
+
+
+    console.log("Modified player");
+    console.log(unmodified);
+    console.log(payload);
+    updatePlayerEndpoint(modifiedPlayer)
+      .then(res => {
+        dispatch({
+          type: 'ADD_PLAYERS',
+          players: payload,
+        })
+      })
+      .catch(err => {})
+
   },
 
   insertPlayerInTeamSelection: (id, position, at) => (dispatch, getState) => {

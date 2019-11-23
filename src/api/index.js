@@ -24,5 +24,8 @@ export const loadPositions = () => request.get(fullURI('/positions'))
 
 export const loadTeamSelection = () => request.get(fullURI('/team_selection'))
 
+export const updatePlayer = player =>
+  request.put(fullURI(`/players/${player.id}`)).send(player)
+
 export const updateTeamSelection = teamSelection =>
   request.post(fullURI('/team_selection')).send(teamSelection)
