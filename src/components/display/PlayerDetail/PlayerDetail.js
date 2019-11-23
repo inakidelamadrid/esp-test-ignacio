@@ -31,7 +31,6 @@ const PlayerDetail = ({
     dispatch(appThunks.loadPlayerDetail(Number(playerID)))
   }, [dispatch, playerID])
 
-
   const [playerPosition, setPlayerPosition] = useState()
   useEffect(() => {
     // we need to catch the hook to set the initial value for the position correctly
@@ -44,7 +43,19 @@ const PlayerDetail = ({
     setIsEditing(isEditing => !isEditing)
   }
 
-  const updatePosition = (evt, {value}) => setPlayerPosition(value)
+  const saveChanges = evt => {
+    if (playerPosition === playerDetail.position) {
+      console.log('No changes')
+      return
+    } else {
+      const updatedDetails = { ...playerDetail, position: playerPosition }
+      // send redux the message to update player
+      console.log('Save')
+    }
+    setIsEditing(false)
+  }
+
+  const updatePosition = (evt, { value }) => setPlayerPosition(value)
 
   return (
     <Transition animation="fly up" duration={600} transitionOnMount>
@@ -111,7 +122,7 @@ const PlayerDetail = ({
             used to save the changes.
           */}
           {isEditing ? (
-            <Button content="SAVE" inverted positive />
+            <Button content="SAVE" inverted positive onClick={saveChanges} />
           ) : (
             <Button
               content="Edit Player Position"
