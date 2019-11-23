@@ -31,14 +31,20 @@ const PlayerDetail = ({
     dispatch(appThunks.loadPlayerDetail(Number(playerID)))
   }, [dispatch, playerID])
 
-  // TODO: This temporary data needs to be removed and replaced with real
-  // position data from /api/v1/positions
+
+  const [playerPosition, setPlayerPosition] = useState()
+  useEffect(() => {
+    // we need to catch the hook to set the initial value for the position correctly
+    setPlayerPosition(playerDetail.position)
+  }, [playerDetail])
 
   const [isEditing, setIsEditing] = useState(false)
 
   const toggleEdit = evt => {
     setIsEditing(isEditing => !isEditing)
   }
+
+  const updatePosition = (evt, {value}) => setPlayerPosition(value)
 
   return (
     <Transition animation="fly up" duration={600} transitionOnMount>
@@ -85,7 +91,8 @@ const PlayerDetail = ({
                   inline
                   label="Position"
                   options={positions}
-                  value={playerDetail.position}
+                  value={playerPosition}
+                  onChange={updatePosition}
                 />
               ) : (
                 <Form.Field inline>
