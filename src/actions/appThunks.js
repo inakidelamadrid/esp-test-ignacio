@@ -3,6 +3,7 @@ import {
   loadFormations,
   loadPlayer,
   loadPlayers,
+  loadPositions as loadPositionsEndpoint,
   loadTeamSelection,
   updateTeamSelection,
 } from '../api'
@@ -42,7 +43,7 @@ const appThunks = {
       })
   },
 
-  loadPlayers: (params) => dispatch => {
+  loadPlayers: params => dispatch => {
     loadPlayers(params)
       .then(function(res) {
         dispatch({
@@ -53,6 +54,17 @@ const appThunks = {
       .catch(function(err) {
         // err.message, err.response
       })
+  },
+
+  loadPositions: () => dispatch => {
+    loadPositionsEndpoint()
+      .then(res => {
+        dispatch({
+          type: 'LOAD_POSITIONS',
+          positions: res.body,
+        })
+      })
+      .catch(err => {})
   },
   /*
    * Although I don't use parentheses in arrow functions with one

@@ -20,6 +20,8 @@ export const loadPlayers = (params = {}) => {
   return params.query ? base.query(params.query) : base
 }
 
+export const loadPositions = () => request.get(fullURI('/positions'))
+
 export const loadTeamSelection = () => request.get(fullURI('/team_selection'))
 
 export const updateTeamSelection = teamSelection =>

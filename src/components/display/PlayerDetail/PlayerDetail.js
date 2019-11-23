@@ -20,8 +20,12 @@ const PlayerDetail = ({
   },
 }) => {
   // I was able to make this work only with hooks.
-  const playerDetail = useSelector(state => state.playerDetail)
+  const { playerDetail, positions } = useSelector(state => state)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(appThunks.loadPositions())
+  }, [dispatch])
 
   useEffect(() => {
     dispatch(appThunks.loadPlayerDetail(Number(playerID)))
@@ -29,18 +33,6 @@ const PlayerDetail = ({
 
   // TODO: This temporary data needs to be removed and replaced with real
   // position data from /api/v1/positions
-  const positions = [
-    {
-      key: 'MID',
-      text: 'MID',
-      value: 'MID',
-    },
-    {
-      key: 'FWD',
-      text: 'FWD',
-      value: 'FWD',
-    },
-  ]
 
   const [isEditing, setIsEditing] = useState(false)
 
