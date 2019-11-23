@@ -1,5 +1,7 @@
 import React, { Component }   from 'react';
-import pick from 'lodash/pick'
+import find                   from 'lodash/find'
+import reduce                 from 'lodash/reduce'
+import pick                   from 'lodash/pick'
 import PropTypes              from 'prop-types';
 import { connect }            from 'react-redux';
 
@@ -13,6 +15,13 @@ import FormationRowPlayers    from '../../display/FormationRowPlayers';
 import Position               from '../../../globals/constants/Position';
 import appThunks              from '../../../actions/appThunks';
 
+const hydrateTeamSelection = (playerData, teamSelection) => {
+  return reduce(teamSelection, (acc, playerIds, key) => {
+    const hydratedPlayers = playerIds.map(playerId => playerId ? find(playerData, {id: playerId}): null)
+    acc[key] = hydratedPlayers
+    return acc
+  }, {})
+}
 
 class Formation extends Component {
 
@@ -46,14 +55,12 @@ class Formation extends Component {
       value : f,
     })); // Semantic Ui Dropdown requires options formatted with these three values
     
-    const { forwards, midfielders, defenders, keeper } = teamSelection;
 
     const { formation } = this.state;
 
     const rows = formation.split('-').map(Number);
-    console.log(rows);
-    console.log(siftPlayers);
-
+    const { forwards, midfielders, defenders, keeper } = hydrateTeamSelection(siftPlayers, teamSelection)
+    
     return (
       <Transition
         animation='fade'

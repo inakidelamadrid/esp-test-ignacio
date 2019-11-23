@@ -8,7 +8,6 @@ import {
 }                           from 'semantic-ui-react';
 
 import PlayerSelectModal    from '../PlayerSelectModal';
-import Position             from '../../../globals/constants/Position';
 
 
 class RowButton extends Component {

@@ -17,7 +17,7 @@ class FormationRowPlayers extends Component {
   static propTypes = {
     maxPlayers : PropTypes.number,
     players: PropTypes.arrayOf(
-      PropTypes.number
+      PropTypes.object
     ).isRequired,
     position   : PropTypes.oneOf(Position).isRequired,
   };
@@ -33,7 +33,7 @@ class FormationRowPlayers extends Component {
     return (
       <Grid.Row>
         <Grid.Column>
-          {players &&
+          {!_.isEmpty(players) &&
             <Transition.Group
               animation='scale'
               as={Card.Group}
@@ -42,13 +42,13 @@ class FormationRowPlayers extends Component {
               itemsPerRow={5}
             >
               {_.times(maxPlayers, (i) =>
-                players[i] ?
+                _.get(players[i], 'id') ?
                   <RowPlayer
-                    country={'gb wls'}
-                    firstName={'Aaron'}
-                    id={players[i]}
+                    country={players[i].country}
+                    firstName={players[i].first_name}
+                    id={players[i].id}
                     key={i}
-                    lastName={'Ramsey'}
+                    lastName={players[i].last_name}
                     position={position}
                   />
                   :
