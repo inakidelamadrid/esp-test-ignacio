@@ -15,6 +15,8 @@ const initialState = {
 
 const players = (state = initialState, action) => {
   switch (action.type) {
+    case 'ADD_REMOVE_PLAYER_IN_TEAM_SELECTION':
+      return Object.assign({}, state, action.team_selection)
     case 'ADD_TEAM_SELECTION':
       const teamSelection = action.team_selection
       const [, newTeamSelection] = adaptTeamSelection(teamSelection, action.formation)

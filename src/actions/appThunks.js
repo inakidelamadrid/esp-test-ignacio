@@ -116,7 +116,7 @@ const appThunks = {
     updateTeamSelection(newTeamSelection)
       .then(res => {
         dispatch({
-          type: 'ADD_TEAM_SELECTION',
+          type: 'ADD_REMOVE_PLAYER_IN_TEAM_SELECTION',
           team_selection: res.body,
         })
       })
@@ -139,7 +139,7 @@ const appThunks = {
     updateTeamSelection(newTeamSelection)
       .then(res => {
         dispatch({
-          type: 'ADD_TEAM_SELECTION',
+          type: 'ADD_REMOVE_PLAYER_IN_TEAM_SELECTION',
           team_selection: res.body,
         })
       })
