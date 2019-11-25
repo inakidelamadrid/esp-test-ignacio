@@ -5,6 +5,18 @@ import { Button, Flag, Icon, List, Modal } from 'semantic-ui-react'
 
 import appThunks from '../../../actions/appThunks'
 import ListLoading from '../ListLoading'
+import compact from 'lodash/compact'
+import reduce from 'lodash/reduce'
+
+const teamSelectionFlatPlayerIds = teamSelection => {
+  return reduce(
+    teamSelection,
+    (result, idsArray, key) => {
+      return [...result, ...compact(idsArray)]
+    },
+    []
+  )
+}
 
 class PlayerSelectModal extends Component {
   static propTypes = {
@@ -33,8 +45,15 @@ class PlayerSelectModal extends Component {
   render() {
     const { selectedPlayer } = this.state
     const { at, handleClose, players, position } = this.props
+
+    const playersInSelectionIds = teamSelectionFlatPlayerIds(
+      this.props.teamSelection
+    )
+
     const positionPlayers = players.filter(
-      player => player.position === position
+      player =>
+        player.position === position &&
+        !playersInSelectionIds.includes(player.id)
     )
 
     return (
@@ -116,7 +135,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   players: state.players,
-  team_selection: state.team_selection,
+  teamSelection: state.teamSelection,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerSelectModal)
