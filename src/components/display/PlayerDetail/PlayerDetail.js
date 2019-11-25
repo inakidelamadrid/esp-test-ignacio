@@ -56,7 +56,6 @@ const PlayerDetail = ({
   }
 
   const updatePosition = (evt, { value }) => setPlayerPosition(value)
-  console.log(!!playerDetail.id);
 
   return (
     <Transition.Group animation="fly up" duration={600}>
