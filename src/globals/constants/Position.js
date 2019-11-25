@@ -4,7 +4,7 @@ export const positionMapping = shortPosText => {
   return {
     DEF: 'defenders',
     FWD: 'forwards',
-    GOAL: 'keeper',
+    GOL: 'keeper',
     MID: 'midfielders',
   }[shortPosText]
 }

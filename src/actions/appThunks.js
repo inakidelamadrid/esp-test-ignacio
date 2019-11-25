@@ -10,8 +10,9 @@ import {
 } from '../api'
 
 const pickPositionPlayers = (teamSelection, position) => {
-  // position comes as short text (e.g MID) and the key in the object is
-  // 'midfielders'
+  /* position comes as short text (e.g MID) and the key in the object is
+  / 'midfielders'
+  */
   const positionKey = positionMapping(position)
   const positionPlayers = teamSelection[positionKey]
   return [positionKey, positionPlayers]
