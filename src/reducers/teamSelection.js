@@ -22,8 +22,6 @@ const players = (state = initialState, action) => {
     case 'CHANGE_TEAM_SELECTION':
       const [_, currentState] = adaptTeamSelection(state, action.formation)
       return currentState
-    case 'REMOVE_PLAYER_FROM_TEAM_SELECTION':
-      return state
     default:
       return state
   }
