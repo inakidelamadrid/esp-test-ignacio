@@ -32,10 +32,13 @@ const PlayerDetail = ({
   }, [dispatch, playerID])
 
   const [playerPosition, setPlayerPosition] = useState()
+  const [isTransitionVisible, setIsTransitionVisible] = useState(false)
   useEffect(() => {
     // we need to catch the hook to set the initial value for the position correctly
     setPlayerPosition(playerDetail.position)
+    setIsTransitionVisible(!!playerDetail.id)
   }, [playerDetail])
+
 
   const [isEditing, setIsEditing] = useState(false)
 
@@ -44,10 +47,8 @@ const PlayerDetail = ({
   }
 
   const saveChanges = evt => {
-    if (playerPosition === playerDetail.position) {
-      console.log('No changes')
-      return
-    } else {
+    if (playerPosition === playerDetail.position) return
+    else {
       const updatedPlayer = { ...playerDetail, position: playerPosition }
       dispatch(appThunks.modifyPlayer(updatedPlayer))
     }
@@ -55,9 +56,12 @@ const PlayerDetail = ({
   }
 
   const updatePosition = (evt, { value }) => setPlayerPosition(value)
+  console.log(!!playerDetail.id);
 
   return (
-    <Transition animation="fly up" duration={600} transitionOnMount>
+    <Transition.Group animation="fly up" duration={600}>
+
+      {isTransitionVisible &&
       <Grid.Column width={11}>
         <Segment clearing color="teal" inverted>
           <Image
@@ -124,8 +128,8 @@ const PlayerDetail = ({
             />
           )}
         </Segment>
-      </Grid.Column>
-    </Transition>
+      </Grid.Column>}
+    </Transition.Group>
   )
 }
 
