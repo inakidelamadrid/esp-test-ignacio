@@ -39,7 +39,7 @@ class Formation extends Component {
   componentDidMount() {
     this.props.loadFormations()
     this.props.loadPlayers()
-    this.props.loadTeamSelection()
+    this.props.loadTeamSelection(this.state.formation)
   }
 
   handleFormationSet = (e, data) => {
@@ -111,8 +111,6 @@ class Formation extends Component {
 
 const mapDispatchToProps = dispatch => ({
   changeTeamSelection: formation => {
-    console.log("Formation");
-    console.log(formation);
     dispatch(changeTeamSelection(formation))
   },
 
@@ -124,8 +122,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(appThunks.loadPlayers())
   },
 
-  loadTeamSelection: () => {
-    dispatch(appThunks.loadTeamSelection())
+  loadTeamSelection: formation => {
+    dispatch(appThunks.loadTeamSelection(formation))
   },
 })
 

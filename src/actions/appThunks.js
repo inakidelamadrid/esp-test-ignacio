@@ -74,12 +74,13 @@ const appThunks = {
    * For now, it just helps me in focusing in solving the business problem
    * and type mechanically
    */
-  loadTeamSelection: () => dispatch => {
+  loadTeamSelection: formation => dispatch => {
     loadTeamSelection()
       .then(res => {
         dispatch({
           type: 'ADD_TEAM_SELECTION',
           team_selection: res.body,
+          formation
         })
       })
       .catch(err => {})

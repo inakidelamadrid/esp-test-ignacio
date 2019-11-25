@@ -16,7 +16,9 @@ const initialState = {
 const players = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_TEAM_SELECTION':
-      return Object.assign({}, state, action.team_selection)
+      const teamSelection = action.team_selection
+      const [prevTeamSelection, newTeamSelection] = adaptTeamSelection(teamSelection, action.formation)
+      return Object.assign({}, state, newTeamSelection)
     case 'CHANGE_TEAM_SELECTION':
       const [_, currentState] = adaptTeamSelection(state, action.formation)
       return currentState
