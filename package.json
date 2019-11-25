@@ -9,6 +9,9 @@
     "react-scripts": "3.1.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "babel-jest": "^24.9.0",
     "concurrently": "4.1.2",
     "http-proxy-middleware": "0.19.1",
     "jest": "^24.9.0",
@@ -28,7 +31,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest",
     "data": "json-server -p 4001 -w ./data/db.json -r ./data/routes.json -d 800",
     "dev": "yarn concurrently \"yarn data\" \"yarn start\""
   },
