@@ -1,138 +1,122 @@
-import React,
-{
-  Component,
-  Fragment,
-}                  from 'react';
-import PropTypes   from 'prop-types';
-import { connect } from 'react-redux';
-import {
-  Button,
-  Flag,
-  Icon,
-  List,
-  Modal,
-}                  from 'semantic-ui-react';
+import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Button, Flag, Icon, List, Modal } from 'semantic-ui-react'
 
-import appThunks   from '../../../actions/appThunks';
+import appThunks from '../../../actions/appThunks'
 import ListLoading from '../ListLoading'
 
 class PlayerSelectModal extends Component {
-
   static propTypes = {
-    loadPlayers : PropTypes.func.isRequired,
-    players     : PropTypes.array,
-  };
-
-  static defaultProps = { players: [] };
-
-  state = { selectedPlayer: null};
-
-  componentDidMount() {
-    const {position} = this.props;
-    this.props.loadPlayers({query: {position: position}});
+    loadPlayers: PropTypes.func.isRequired,
+    players: PropTypes.array,
   }
 
-  handleSelect = (e,data) => {
-    this.setState({ selectedPlayer: data.id });
-  };
+  static defaultProps = { players: [] }
+
+  state = { selectedPlayer: null }
+
+  componentDidMount() {
+    // first attempt was to limit the players list here. But that introduced a bug in the formation page: all other players not in the selected position were removed. Due to the size of the result, it's not that an issue to get all players from the API (for now)
+    this.props.loadPlayers()
+  }
+
+  handleSelect = (e, data) => {
+    this.setState({ selectedPlayer: data.id })
+  }
 
   insertPlayer = (position, at) => {
-    const { selectedPlayer } = this.state;
-    this.props.insertPlayer(selectedPlayer, position, at);
+    const { selectedPlayer } = this.state
+    this.props.insertPlayer(selectedPlayer, position, at)
   }
 
   render() {
-    const { selectedPlayer } = this.state;
-    const { at, handleClose, players, position } = this.props;
+    const { selectedPlayer } = this.state
+    const { at, handleClose, players, position } = this.props
+    const positionPlayers = players.filter(
+      player => player.position === position
+    )
 
     return (
       <Fragment>
-        <Modal.Header content='Select A Player' />
-        <Modal.Content
-          scrolling
-          style={{ padding: 0 }}
-        >
-          <List
-            divided
-            relaxed
-            selection
-          >
-            {players ?
-              players.map((player) => (
+        <Modal.Header content="Select A Player" />
+        <Modal.Content scrolling style={{ padding: 0 }}>
+          <List divided relaxed selection>
+            {positionPlayers ? (
+              positionPlayers.map(player => (
                 <List.Item
                   active={selectedPlayer === player.id}
-                  as='a'
+                  as="a"
                   content={player.position}
                   description={
                     <Fragment>
                       <Flag className={player.country} />
-                      {selectedPlayer === player.id &&
-                      <Icon
-                        className='check'
-                        color='green'
-                        floated='right'
-                        size='large'
-                        style={{
-                          position  : 'absolute',
-                          right     : '1em',
-                          top       : '50%',
-                          transform : 'translateY(-50%)',
-                        }}
-                      />
-                      }
+                      {selectedPlayer === player.id && (
+                        <Icon
+                          className="check"
+                          color="green"
+                          floated="right"
+                          size="large"
+                          style={{
+                            position: 'absolute',
+                            right: '1em',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                          }}
+                        />
+                      )}
                     </Fragment>
                   }
-                  header={[player.first_name,player.last_name].join(' ')}
+                  header={[player.first_name, player.last_name].join(' ')}
                   id={player.id}
                   image={{
-                    avatar : true,
-                    src    : player.img,
+                    avatar: true,
+                    src: player.img,
                   }}
                   key={player.id}
                   onClick={this.handleSelect}
                   style={{ position: 'relative' }}
                 />
               ))
-              : <ListLoading/>
-            }
+            ) : (
+              <ListLoading />
+            )}
           </List>
         </Modal.Content>
         <Modal.Actions>
           <Button
-            content='Select'
+            content="Select"
             positive
             onClick={() => {
-              this.insertPlayer(position, at);
+              this.insertPlayer(position, at)
               handleClose()
             }}
           />
           <Button
-            content='Cancel'
-            color='grey'
+            content="Cancel"
+            color="grey"
             onClick={() => {
               handleClose()
             }}
           />
         </Modal.Actions>
       </Fragment>
-    );
+    )
   }
-
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   insertPlayer: (id, position, at) => {
-    dispatch(appThunks.insertPlayerInTeamSelection(id, position, at));
+    dispatch(appThunks.insertPlayerInTeamSelection(id, position, at))
   },
-  loadPlayers: (params) => {
-    dispatch(appThunks.loadPlayers(params));
+  loadPlayers: params => {
+    dispatch(appThunks.loadPlayers(params))
   },
-});
+})
 
-const mapStateToProps = (state) => ({ 
+const mapStateToProps = state => ({
   players: state.players,
-  team_selection: state.team_selection
-});
+  team_selection: state.team_selection,
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlayerSelectModal);
-
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerSelectModal)
