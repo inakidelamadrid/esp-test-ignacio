@@ -14,7 +14,6 @@
     "babel-jest": "^24.9.0",
     "concurrently": "4.1.2",
     "http-proxy-middleware": "0.19.1",
-    "jest": "^24.9.0",
     "json-server": "0.15.0",
     "lodash": "^4.17.15",
     "react-redux": "7.1.1",
